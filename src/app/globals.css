@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/*
+  Design tokens measured from the reference (unpaf.info) screenshots and
+  saved HTML/CSS:
+  - nav buttons #3078BE, radius 5px, 16px heavy labels; active = white + blue border
+  - accent box / submit buttons #1D67CD
+  - page background #F6F9F5, headings #626462 (heavy) or #091405
+  - youth page accent #95A91D, links/login #035772
+  Licensed fonts are substituted: Avenir LT -> Figtree, Didot italic ->
+  Libre Baskerville italic, Futura -> Jost.
+*/
+:root {
+  --background: #f6f9f5;
+  --foreground: #091405;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-nav: #3078be;
+  --color-accent: #1d67cd;
+  --color-accent-soft: #5b8fdb;
+  --color-brand: #3f7652;
+  --color-teal: #035772;
+  --color-sand: #f6f9f5;
+  --color-ink: #091405;
+  --color-muted: #626462;
+  --color-body: #3b3d3b;
+  --color-line: #c5c7c4;
+  --color-stone: #d1d2cf;
+  --color-olive: #95a91d;
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-serif: var(--font-serif-italic), Georgia, serif;
+  --font-futura: var(--font-futura-sub), var(--font-body), sans-serif;
+  --container-site: 980px;
+  --container-header: 1120px;
+}
+
+/* Base rules live in the base layer so Tailwind utilities can override them. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  /* Sinhala / Tamil rendering */
+  html[lang="si"] body {
+    font-family: var(--font-sinhala), var(--font-sans);
+  }
+  html[lang="ta"] body {
+    font-family: var(--font-tamil), var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+/* Diagonal-stripe band used behind the Ambassadors / Gallery headings. */
+.bg-stripes {
+  background-color: #cfd0cd;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55) 0 3px,
+    transparent 3px 44px
+  );
+}
+
+/* Paper-texture footer background. */
+.bg-paper {
+  background-color: #f2f2f1;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+  background-size: 5px 5px, 7px 7px;
+  background-position: 0 0, 2px 3px;
+}
+
+/* Underline-only inputs used by the Wix forms. */
+.field-line {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #8a8c8a;
+  background: transparent;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.875rem;
+  color: #2b2b2b;
+  transition: border-color 0.2s;
+}
+.field-line::placeholder {
+  color: #8a8c8a;
+}
+.field-line:focus {
+  outline: none;
+  border-bottom-color: var(--color-accent);
+  box-shadow: 0 1px 0 0 var(--color-accent);
+}
+.field-line[aria-invalid="true"] {
+  border-bottom-color: #b91c1c;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out both;
+}
